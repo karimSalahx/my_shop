@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop/constants.dart';
 
 import 'custom_text.dart';
 
