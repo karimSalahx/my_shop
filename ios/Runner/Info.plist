@@ -41,5 +41,23 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+			<string>fb3268578649908591</string>
+			<string>com.googleusercontent.apps.16427541599-kivj8sc4efii8ejvkgnhehl2fhlinehp</string>
+			</array>
+		</dict>
+	</array>
+	
+	<key>FacebookAppID</key>
+	<string>3268578649908591</string>
+	<key>FacebookDisplayName</key>
+	<string>my_shop</string>
 </dict>
+
 </plist>

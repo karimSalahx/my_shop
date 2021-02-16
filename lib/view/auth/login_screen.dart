@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:my_shop/constants.dart';
+import 'package:my_shop/core/viewModel/auth_view_model.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_button.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_social_button.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_text.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class LoginScreen extends GetWidget<AuthViewModel> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     double height = Get.height;
@@ -21,6 +21,7 @@ class LoginScreen extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
         body: Form(
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
             child: SingleChildScrollView(
@@ -51,11 +52,15 @@ class LoginScreen extends StatelessWidget {
                     height: height * .1,
                   ),
                   CustomTextField(
-                    onValidate: (value) {},
-                    onSaved: (value) {},
+                    onValidate: (value) {
+                      if (value.length == 0) {
+                        return 'Please Enter your email Adress';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => controller.email = value,
                     textHint: 'Email',
                     textInputType: TextInputType.emailAddress,
-                    controller: _emailController,
                     obsecureText: false,
                     labelText: 'iamdavid@gmail.com',
                   ),
@@ -63,11 +68,17 @@ class LoginScreen extends StatelessWidget {
                     height: height * .05,
                   ),
                   CustomTextField(
-                    onSaved: (value) {},
-                    onValidate: (value) {},
+                    onSaved: (value) => controller.password = value,
+                    onValidate: (value) {
+                      if (value.length == 0) {
+                        return 'Please Enter Password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
                     textHint: 'Password',
                     textInputType: TextInputType.name,
-                    controller: _passwordController,
                     obsecureText: true,
                     labelText: '******',
                   ),
@@ -85,7 +96,14 @@ class LoginScreen extends StatelessWidget {
                     height: height * .1,
                   ),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Calls on Save method
+                      _formKey.currentState.save();
+
+                      if (_formKey.currentState.validate()) {
+                        controller.signInWithEmailAndPassword();
+                      }
+                    },
                     backgroundColor: Constants.primaryColor,
                     text: 'SIGN IN',
                     textColor: Colors.white,
@@ -98,16 +116,18 @@ class LoginScreen extends StatelessWidget {
                     height: height * .04,
                   ),
                   CustomSocialButton(
-                      buttonText: 'Sign In with Facebook',
-                      imagePath: 'assets/images/facebook.png',
-                      onPressed: () {}),
+                    buttonText: 'Sign In with Facebook',
+                    imagePath: 'assets/images/facebook.png',
+                    onPressed: () => controller.facebookSignIn(),
+                  ),
                   SizedBox(
                     height: height * .01,
                   ),
                   CustomSocialButton(
-                      buttonText: 'Sign In with Google',
-                      imagePath: 'assets/images/google.png',
-                      onPressed: () {}),
+                    buttonText: 'Sign In with Google',
+                    imagePath: 'assets/images/google.png',
+                    onPressed: () => controller.googleSignIn(),
+                  ),
                 ],
               ),
             ),

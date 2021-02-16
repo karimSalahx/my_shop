@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String textHint;
-  final TextEditingController controller;
   final String Function(String) onValidate;
   final TextInputType textInputType;
   final String labelText;
@@ -10,7 +9,6 @@ class CustomTextField extends StatelessWidget {
   final String Function(String) onSaved;
   const CustomTextField({
     @required this.textHint,
-    @required this.controller,
     @required this.onValidate,
     @required this.textInputType,
     @required this.labelText,
@@ -36,7 +34,6 @@ class CustomTextField extends StatelessWidget {
             hintStyle: TextStyle(letterSpacing: 1.3, color: Colors.grey),
             fillColor: Colors.white,
           ),
-          controller: controller,
           obscureText: obsecureText,
           validator: onValidate,
           onSaved: onSaved,
