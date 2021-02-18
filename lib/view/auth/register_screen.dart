@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:my_shop/constants.dart';
 import 'package:my_shop/core/viewModel/auth_view_model.dart';
-import 'package:my_shop/view/auth/register_screen.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_button.dart';
-import 'package:my_shop/view/widgets/custom_text/custom_social_button.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_text.dart';
 import 'package:my_shop/view/widgets/custom_text/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -19,6 +16,13 @@ class LoginScreen extends StatelessWidget {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () => Get.back(),
+          ),
           elevation: 0,
           backgroundColor: Colors.white,
         ),
@@ -30,44 +34,29 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        text: 'Welcome,',
-                        color: Colors.black,
-                        fontSize: 30,
-                      ),
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () {
-                          Get.to(() => RegisterScreen());
-                          controller.cancelTapOpacity();
-                        },
-                        onTapDown: (_) => controller.tapDownOpacity(),
-                        onTapCancel: () => controller.cancelTapOpacity(),
-                        child: Obx(
-                          () => AnimatedOpacity(
-                            duration: const Duration(milliseconds: 200),
-                            opacity: controller.obacity.value,
-                            child: CustomText(
-                              text: 'Sign Up',
-                              color: Constants.primaryColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   CustomText(
-                    text: 'Sign in to Continue',
-                    color: Colors.grey[500],
-                    fontSize: 15,
+                    text: 'Sign Up,',
+                    color: Colors.black,
+                    fontSize: 30,
                   ),
                   SizedBox(
                     height: height * .1,
+                  ),
+                  CustomTextField(
+                    onSaved: (value) => controller.name = value,
+                    onValidate: (value) {
+                      if (value.length == 0) {
+                        return 'Please Enter Your name';
+                      }
+                      return null;
+                    },
+                    textHint: 'Name',
+                    textInputType: TextInputType.name,
+                    obsecureText: false,
+                    labelText: 'Mohamed Salah',
+                  ),
+                  SizedBox(
+                    height: height * .05,
                   ),
                   CustomTextField(
                     onValidate: (value) {
@@ -101,16 +90,6 @@ class LoginScreen extends StatelessWidget {
                     labelText: '******',
                   ),
                   SizedBox(
-                    height: height * .01,
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  SizedBox(
                     height: height * .1,
                   ),
                   CustomButton(
@@ -119,32 +98,12 @@ class LoginScreen extends StatelessWidget {
                       _formKey.currentState.save();
 
                       if (_formKey.currentState.validate()) {
-                        controller.signInWithEmailAndPassword();
+                        controller.createAccountWithEmailAndPassword();
                       }
                     },
                     backgroundColor: Constants.primaryColor,
-                    text: 'SIGN IN',
+                    text: 'SIGN UP',
                     textColor: Colors.white,
-                  ),
-                  CustomText(
-                    text: '-OR-',
-                    alignment: Alignment.center,
-                  ),
-                  SizedBox(
-                    height: height * .04,
-                  ),
-                  CustomSocialButton(
-                    buttonText: 'Sign In with Facebook',
-                    imagePath: 'assets/images/facebook.png',
-                    onPressed: () => controller.facebookSignIn(),
-                  ),
-                  SizedBox(
-                    height: height * .01,
-                  ),
-                  CustomSocialButton(
-                    buttonText: 'Sign In with Google',
-                    imagePath: 'assets/images/google.png',
-                    onPressed: () => controller.googleSignIn(),
                   ),
                 ],
               ),
